@@ -1,3 +1,20 @@
+# API description
+
+## 1.エンドポイント
+
+```https://fast-api-production.up.railway.app/path/cos_similality/date_different/````
+
+- cos_similality : コサイン類似度・float
+
+- date_different : 日付のズレを分に換算した後に1/1000したもの・int
+
+## 2.戻り値
+
+{"res":[rate_true,rate_false]}
+
+- rate_true : その人の落とし物である確率
+- rate_false : その人の落とし物でない確率
+
 ---
 title: FastAPI
 description: A FastAPI server
