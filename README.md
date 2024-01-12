@@ -2,7 +2,7 @@
 
 ## 1.エンドポイント
 
-```https://fast-api-production.up.railway.app/path/cos_similality/date_different/````
+```https://fast-api-production.up.railway.app/path/{cos_similality}/{date_different}/```
 
 - cos_similality : コサイン類似度・float
 
