@@ -15,12 +15,7 @@
 - rate_true : その人の落とし物である確率
 - rate_false : その人の落とし物でない確率
 
----
-title: FastAPI
-description: A FastAPI server
-tags:
-  - fastapi
-  - python
+
 ---
 
 # FastAPI Example
