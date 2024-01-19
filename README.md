@@ -2,13 +2,45 @@
 
 ## 1.エンドポイント
 
-```https://fast-api-production.up.railway.app/path/{cos_similality}/{date_different}/```
+```pythoon
+class Request(BaseModel):
+    cos_id: float
+    date_id: float
+
+```
+
+
+```https://fast-api-production.up.railway.app/path/```
+
 
 - cos_similality : コサイン類似度・float
 
-- date_different : 日付のズレを分に換算した後に1/1000したもの・int
+- date_different : 日付の ズレをmsにしたもの
+  
 
+```python
+@app.post("/predict/", response_model=Response)
+async def demo_get_path_id(req_body: Request):
+    try:
+        ch_sec = req_body.date_id / 1000 / 1000
+        date_std = (ch_sec - mean)/std
+        new_data = np.array([[req_body.cos_id, date_std]])
+        if ch_sec >= 400:
+            return Response(data=[0, 1])
+        else:
+            return Response(data=[model.predict(new_data)[0],model.predict(new_data)[1]])
+
+    except Exception as e:
+        return Response(data=[-1, 1], error=str(e))
+
+```
 ## 2.戻り値
+
+```python
+class Response(BaseModel):
+    data: [float, float]
+    error: Optional[str] = None
+```
 
 {"res":[rate_true,rate_false]}
 

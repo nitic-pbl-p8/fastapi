@@ -2,6 +2,19 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from keras.models import load_model
 import numpy as np
+from pydantic import BaseModel
+from typing import Optional, List
+
+
+class Request(BaseModel):
+    cos_id: float
+    date_id: float
+
+
+class Response(BaseModel):
+    data: List[float]
+    error: Optional[str] = None
+
 
 mean = 117.5364705882353
 std = 52.3410265358211
@@ -11,36 +24,22 @@ model.summary()
 
 app = FastAPI()
 
-new_data = np.array([[0.9, 0.3], [0.4, 0.5]])
-predictions = model.predict(new_data)
-
-print(predictions)
-
-
-class Msg(BaseModel):
-    msg: str
-
 
 @app.get("/")
 async def root():
     return {"message": "Hello World. Welcome to FastAPI!"}
 
 
-@app.get("/path")
-async def demo_get():
-    return {"message": "This is /path endpoint, use a post request to transform the text to uppercase"}
+@app.post("/predict/", response_model=Response)
+async def demo_get_path_id(req_body: Request):
+    try:
+        ch_sec = req_body.date_id / 1000 / 1000
+        date_std = (ch_sec - mean)/std
+        new_data = np.array([[req_body.cos_id, date_std]])
+        if ch_sec >= 400:
+            return Response(data=[0, 1])
+        else:
+            return Response(data=[model.predict(new_data)[0],model.predict(new_data)[1]])
 
-
-@app.post("/path")
-async def demo_post(inp: Msg):
-    return {"message": inp.msg.upper()}
-
-
-@app.get("/path/{cos_id}/{date_id}/")
-async def demo_get_path_id(cos_id: float, date_id: int):
-    date_std = (date_id - mean)/std
-    new_data = np.array([[cos_id, date_std]])
-    if date_id >= 400:
-        return {"res": [0, 1]}
-    else:
-        return {"res": model.predict(new_data).tolist()[0]}
+    except Exception as e:
+        return Response(data=[-1, 1], error=str(e))
