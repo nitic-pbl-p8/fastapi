@@ -6,9 +6,10 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 
+
 class Request(BaseModel):
-    cos_id: float
-    date_id: float
+    similarity : float
+    date_difference : float
 
 
 class Response(BaseModel):

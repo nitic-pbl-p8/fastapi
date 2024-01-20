@@ -3,9 +3,10 @@
 ## 1.エンドポイント
 
 ```pythoon
+
 class Request(BaseModel):
-    cos_id: float
-    date_id: float
+    similarity : float
+    date_difference : float
 
 ```
 
@@ -13,9 +14,9 @@ class Request(BaseModel):
 ```https://fast-api-production.up.railway.app/path/```
 
 
-- cos_similality : コサイン類似度・float
+- similarity : コサイン類似度・float
 
-- date_different : 日付の ズレをmsにしたもの
+- date_difference : 日付のズレをmsにしたもの
   
 
 ```python
