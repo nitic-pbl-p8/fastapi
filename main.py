@@ -34,9 +34,9 @@ async def root():
 @app.post("/predict/", response_model=Response)
 async def demo_get_path_id(req_body: Request):
     try:
-        ch_sec = req_body.date_id / 1000 / 1000
+        ch_sec = req_body.date_difference / 1000 / 1000
         date_std = (ch_sec - mean)/std
-        new_data = np.array([[req_body.cos_id, date_std]])
+        new_data = np.array([[req_body.similarity, date_std]])
         if ch_sec >= 400:
             return Response(data=[0, 1])
         else:
