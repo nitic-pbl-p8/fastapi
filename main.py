@@ -39,7 +39,9 @@ async def demo_get_path_id(req_body: Request):
         if ch_sec >= 400:
             return Response(data=[0, 1])
         else:
-            return Response(data=[model.predict(new_data)[0],model.predict(new_data)[1]])
+            predictions = model.predict(new_data)
+            print("Prediction output:", predictions)  # デバッグ用
+            return Response(data=[model.predict(new_data)[0][0],model.predict(new_data)[0][1]])
 
     except Exception as e:
         return Response(data=[-1, 1], error=str(e))
