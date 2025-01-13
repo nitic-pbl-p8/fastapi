@@ -19,8 +19,7 @@ class Response(BaseModel):
 
 mean = 117.5364705882353
 std = 52.3410265358211
-
-model = load_model('trained_data')
+model = load_model('data/trained_data.h5')
 model.summary()
 
 app = FastAPI()
